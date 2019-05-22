@@ -12,7 +12,7 @@ Note:
 
 Solution:
 Runtime: 0 ms
-Memory: 35.8 MB
+Memory Usage: 35.8 MB
 ************************************************************************************************
 class Solution {
     public void moveZeroes(int[] nums) {
