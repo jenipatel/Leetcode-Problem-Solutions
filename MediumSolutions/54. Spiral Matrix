@@ -1,1 +1,102 @@
-Write
+    
+Problem: Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+
+Example 1: Input: [
+                    [ 1, 2, 3 ],
+                    [ 4, 5, 6 ],
+                    [ 7, 8, 9 ]
+                  ]
+           Output: [1,2,3,6,9,8,7,4,5]
+
+Example 2: Input: [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [9,10,11,12]
+                  ]
+           Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+
+
+Solution:
+Runtime: 0 ms
+Memory Usage: 34.8 MB
+************************************************************************************************
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        
+        List<Integer> li = new ArrayList<Integer>();
+        
+        // If the input array is null
+        if (matrix.length == 0) {
+            return li;
+        }
+        
+        int totalElements = matrix.length * matrix[0].length;
+        
+        // If the input array only has one element
+        if (totalElements == 1) {
+            li.add(matrix[0][0]);
+            return li;
+        }
+        
+        int topMin = 0;
+        int topMax = matrix[0].length;
+        int rightMax = matrix.length;
+        int bottomMax = 0;
+        int leftMax = 0;
+        boolean top = true;
+        boolean right = false, bottom = false, left = false;
+
+        int row = 0, col = 0, num = 1;
+        
+        // Loop through all the elements
+        while (num <= totalElements) {
+            li.add(matrix[row][col]);
+            num++;
+            
+            // Increment row only if the column size is always one
+            if (matrix[0].length == 1) {
+                row++;
+            } else {
+                // Iterating through the elements on the top side (top row)
+                if (top && row == topMin && col < topMax - 1) {
+                    col++;
+                    if (col == topMax - 1) {
+                        top = false;
+                        right = true;
+                    }
+                } // Iterating through the elements on the right side (right column)
+                else if (right && col == topMax - 1 && row < rightMax - 1) {
+                    row++;
+                    if (row == rightMax - 1) {
+                        right = false;
+                        bottom = true;
+                    }
+                } // Iterating through the elements on the bottom side (bottom row)
+                else if (bottom && col >= bottomMax && row == rightMax - 1) {
+                    col--;
+                    if (col == bottomMax) {
+                        bottom = false;
+                        left = true;
+                    }
+                } // Iterating through the elements on the left side (left column)
+                else if (left && col == leftMax && row > leftMax + 1) {
+                    row--;
+                    // Increment/decrement the min/max to move inwards of the matrix
+                    if (row == topMin + 1) {
+                        topMin++;
+                        topMax--;
+                        rightMax--;
+                        bottomMax++;
+                        leftMax++;
+                        if (row == topMin) {
+                            left = false;
+                            top = true;
+                        }
+                    }
+                }
+            }
+        }
+        return li;
+    }
+}
+************************************************************************************************
